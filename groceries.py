@@ -1,6 +1,7 @@
 # groceries.py
 
 #from pprint import pprint
+from operator import itemgetter
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -25,29 +26,76 @@ products = [
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
-# print(products)
-# pprint(products)
 
-# TODO: write some Python code here to produce the desired output
-
-# empty list to store a formated collection of elements
-product_price = []
+# TODO: write some Python code here to accomplish basic task
+products_count = len(products)
 
 # header
 print("----------------")
-print("THESE ARE 20 PRODUCTS:")
+print(f"THESE ARE THE {products_count} PRODUCTS:")
 print("----------------")
 
+##################################################OLD LOGIC##################################################
+# product_price = []
 # appending formatted elements in product_price list
-for index in range(len(products)):
-    product_price.append(products[index]["name"] + " (" + "$" + str(products[index]["price"]) + ")")
-
+#for index in range(len(products)):
+#    product_price.append(products[index]["name"] + " (" + "$" + str(products[index]["price"]) + ")")
+#
+#
 # sort and print the elements of product_price list
-product_price.sort()
-for i in range(len(product_price)):
-    print("+ " + product_price[i])
-
+#product_price.sort()
+#for i in range(len(product_price)):
+#    print("+ " + product_price[i])
+#
     #print(products[index]["name"] + " (" + "$" + str(products[index]["price"]) + ")")
 
+#################################################################################################################
+
+# sorting a list of dictionaries
+products_sorted = sorted(products, key = itemgetter('name'))
+# print(products_sorted)
+
+#print each product iteration
+for item in products:
+    item_price = "${0:,.2f}".format(item['price'])
+    #print(f"+ {item['name']} ({item['price']})")
+    print(f"+ {item['name']} ({item_price})")
+
+# TODO: write python code to accomplish challenge task
+
+print("\n")    # empty space
+
+# Get a list of distinct departments, sorted in ascending order
+
+department_set = set()
+
+for item in products:
+    department_set.add(item['department'])
+
+department_list = list(department_set)
+#print(department_list)
 
 
+# distinct department count
+dept_count = len(department_list)
+
+# header
+print("----------------")
+print(f"THESE ARE THE {dept_count} PRODUCTS:")
+print("----------------")
+
+#print each department iteration
+for dept in department_list:
+    product_count = len([i["name"] for i in products if i["department"] in dept])
+    if product_count == 1:
+        p_string =  "Product"
+    else:
+        p_string = "Products"
+
+    print(f"+ {dept} ({product_count} {p_string})")
+    
+    
+
+
+
+# p for p in products if p["departments"] == "snacks"
